@@ -1,0 +1,101 @@
+{
+  "name": "bb-code-reviewer",
+  "displayName": "AI Code Review",
+  "description": "AI-powered code review — select code, right-click, get instant feedback. Supports Claude, OpenAI, DeepSeek, Qwen, Moonshot, and custom providers.",
+  "version": "1.0.0",
+  "publisher": "dudu-coder",
+  "icon": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourname/bb-code-reviewer"
+  },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "code review",
+    "ai",
+    "code quality",
+    "linter",
+    "claude",
+    "openai",
+    "deepseek"
+  ],
+  "activationEvents": [
+    "onCommand:bb-code-reviewer.review",
+    "onCommand:bb-code-reviewer.setApiKey"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "bb-code-reviewer.review",
+        "title": "🔍 AI Code Review"
+      },
+      {
+        "command": "bb-code-reviewer.setApiKey",
+        "title": "AI Review: Set API Key"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "bb-reviewer-submenu",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        }
+      ],
+      "bb-reviewer-submenu": [
+        {
+          "command": "bb-code-reviewer.review"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "bb-reviewer-submenu",
+        "label": "🔍 AI Code Review"
+      }
+    ],
+    "configuration": {
+      "title": "AI Code Review",
+      "properties": {
+        "bbCodeReviewer.provider": {
+          "type": "string",
+          "default": "deepseek",
+          "enum": [
+            "claude",
+            "openai",
+            "deepseek",
+            "qwen",
+            "moonshot",
+            "custom"
+          ],
+          "enumDescriptions": [
+            "Anthropic Claude",
+            "OpenAI GPT",
+            "DeepSeek",
+            "通义千问 (Alibaba Qwen)",
+            "Moonshot (Kimi)",
+            "Custom (OpenAI-compatible API)"
+          ],
+          "description": "AI provider to use for code review"
+        },
+        "bbCodeReviewer.model": {
+          "type": "string",
+          "default": "",
+          "description": "Model name (leave empty to use provider default: deepseek-chat / gpt-4o / claude-opus-4-8 / qwen-turbo / moonshot-v1-8k)"
+        },
+        "bbCodeReviewer.customBaseUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Custom API base URL (only used when provider is 'custom')"
+        }
+      }
+    }
+  }
+}
