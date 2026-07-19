@@ -7,7 +7,7 @@
   "icon": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourname/bb-code-reviewer"
+    "url": "https://github.com/zhouzhou-0707/bb-code-reviewer"
   },
   "engines": {
     "vscode": "^1.74.0"
