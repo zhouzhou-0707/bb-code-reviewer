@@ -1,0 +1,62 @@
+# bb-code-reviewer 项目总结
+
+## 一、项目概况
+
+| 项目信息 | 详情 |
+|----------|------|
+| 项目名称 | AI Code Review（bb-code-reviewer） |
+| 项目类型 | VS Code 扩展插件 |
+| GitHub | https://github.com/zhouzhou-0707/bb-code-reviewer |
+| 代码量 | 508 行 JavaScript（3 个核心文件） |
+| 依赖 | **零 npm 依赖**，纯 Node.js 内置模块 |
+| 核心功能 | 选中代码 → 右键 → AI 一键审查，输出 6 类问题报告 |
+
+## 二、功能描述
+
+支持 6 家 AI 厂商（Claude / OpenAI / DeepSeek / 通义千问 / Moonshot / 自定义），
+用户选中代码后右键即可获得 AI 代码审查，覆盖：
+
+- 🔴 空指针访问风险
+- 🔴 未处理的异步错误
+- 🟡 循环中的性能陷阱
+- 🟡 硬编码敏感信息
+- 🔵 变量命名问题
+- 🔵 边界条件遗漏
+
+API Key 使用操作系统级加密存储（Windows Credential Store），保障安全性。
+
+## 三、技术栈
+
+- JavaScript / Node.js
+- VS Code Extension API（命令注册、右键菜单、OutputChannel、SecretStorage）
+- HTTP/HTTPS 模块（多厂商 AI API 适配）
+- Anthropic API + OpenAI 兼容 API 双格式支持
+- vsce 打包工具
+
+## 四、可写进简历的模板
+
+### 项目经验
+
+> **AI Code Review — VS Code 插件开发** | 独立开发 | 2026.07
+>
+> - 开发了一个 VS Code 代码审查插件，用户选中代码后右键即可通过 AI 自动审查
+> - 适配了 6 家主流 AI 厂商（Claude、OpenAI、DeepSeek、通义千问、Moonshot 等），
+>   设计统一的多厂商适配层，通过策略模式屏蔽不同 API 格式的差异
+> - 使用 VS Code SecretStorage API 实现 API Key 的安全存储（操作系统级加密）
+> - **零 npm 依赖**，全部基于 Node.js 内置模块（https、fs）实现
+> - 项目已发布在 GitHub，可独立打包为 .vsix 安装使用
+
+### 自我评价可补充（选一句）
+
+> 具备独立从零搭建项目的能力，能够阅读官方文档完成 VS Code 扩展开发，
+> 理解多 API 适配、安全存储等工程实践。
+
+## 五、面试可能被问到的问题
+
+| 问题 | 参考回答 |
+|------|---------|
+| 为什么零依赖？ | 插件体积小、安装快；不想引入供应链风险；Node.js 内置模块完全够用 |
+| 多厂商适配怎么设计的？ | 每个厂商一个配置对象（URL、请求格式、响应解析），用 providers.js 统一成 buildRequest + parseResponse 两个接口 |
+| API Key 怎么存的？ | 用 VS Code 的 SecretStorage API，底层是 Windows Credential Store，和系统密码同级别加密 |
+| 遇到什么困难？ | 调试时右键菜单不显示，排查后发现是 activationEvents 需要配置 onCommand 事件才能激活插件 |
+| 怎么测试的？ | VS Code 提供 Extension Development Host，按 F5 启动独立窗口测试，不影响正常使用 |
